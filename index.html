@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUBWAY - Fresh Crafted Subs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #22C55E;
+            --accent-yellow: #FCD34D;
+            --accent-red: #EF4444;
+            --dark-bg: #0F172A;
+            --light-bg: #F8FAFC;
+            --text-dark: #1E293B;
+            --text-light: #FFFFFF;
+            --border-radius: 16px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.4) 0%, rgba(15, 23, 42, 0.1) 100%);
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            color: var(--text-light);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content .gradient-text {
+            background: linear-gradient(135deg, var(--accent-yellow) 0%, var(--primary-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 16px 48px;
+            background: var(--primary-green);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(34, 197, 94, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(34, 197, 94, 0.5);
+        }
+
+        /* MENU SECTION */
+        .menu-section {
+            padding: 6rem 2rem;
+            background: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            font-weight: 900;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #64748B;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(34, 197, 94, 0.15);
+        }
+
+        .menu-card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-yellow) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .menu-card-content {
+            padding: 2rem;
+        }
+
+        .menu-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .menu-card p {
+            color: #64748B;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        /* WHY SUBWAY SECTION */
+        .why-section {
+            padding: 6rem 2rem;
+            background: var(--dark-bg);
+            color: var(--text-light);
+        }
+
+        .why-section h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            text-align: center;
+            margin-bottom: 4rem;
+            font-weight: 900;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .why-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .why-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-yellow);
+        }
+
+        .why-card p {
+            color: #CBD5E1;
+            line-height: 1.8;
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--accent-yellow) 100%);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: white;
+            margin-bottom: 1rem;
+            font-weight: 900;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .cta-button-white {
+            background: white;
+            color: var(--primary-green);
+        }
+
+        .cta-button-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--text-dark);
+            color: var(--text-light);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        footer p {
+            color: #94A3B8;
+        }
+
+        /* ANIMATIONS */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* PARALLAX SCROLL EFFECT */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 24px;
+            height: 24px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <video autoplay muted loop playsinline>
+            <source src="Subway_hero.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>
+                FRESH<br>
+                <span class="gradient-text">CRAFTED SUBS</span>
+            </h1>
+            <p>Made exactly how you like it</p>
+            <button class="cta-button">Order Now</button>
+        </div>
+        <div class="scroll-indicator">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 5v14M5 16l7 7 7-7" stroke="currentColor"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- MENU SECTION -->
+    <section class="menu-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Signature Subs</h2>
+                <p>Choose from our carefully crafted menu of fresh, delicious sandwiches</p>
+            </div>
+
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <div class="menu-card-image">🥗</div>
+                    <div class="menu-card-content">
+                        <h3>The Italian</h3>
+                        <p>Classic Italian meats with fresh veggies and our signature dressing</p>
+                        <span class="price">$8.99</span>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-card-image">🍗</div>
+                    <div class="menu-card-content">
+                        <h3>Chicken Teriyaki</h3>
+                        <p>Grilled chicken with sweet teriyaki sauce and crispy veggies</p>
+                        <span class="price">$7.99</span>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-card-image">🥙</div>
+                    <div class="menu-card-content">
+                        <h3>Turkey & Bacon</h3>
+                        <p>Turkey breast with crispy bacon and all your favorite toppings</p>
+                        <span class="price">$9.49</span>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-card-image">🌱</div>
+                    <div class="menu-card-content">
+                        <h3>Veggie Bliss</h3>
+                        <p>Fresh vegetables, hummus, and organic greens on multigrain bread</p>
+                        <span class="price">$7.49</span>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-card-image">🥩</div>
+                    <div class="menu-card-content">
+                        <h3>The Beast</h3>
+                        <p>Double meat with double cheese and all the trimmings</p>
+                        <span class="price">$10.99</span>
+                    </div>
+                </div>
+
+                <div class="menu-card">
+                    <div class="menu-card-image">🍤</div>
+                    <div class="menu-card-content">
+                        <h3>Seafood Sensation</h3>
+                        <p>Fresh shrimp and crab with tangy seafood sauce</p>
+                        <span class="price">$9.99</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY SUBWAY SECTION -->
+    <section class="why-section">
+        <div class="container">
+            <h2>Why Choose Subway?</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">⚡</div>
+                    <h3>Fast & Fresh</h3>
+                    <p>Your sub is made fresh to order, right before your eyes. Quality you can taste.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">🎯</div>
+                    <h3>Customize Everything</h3>
+                    <p>Choose your bread, toppings, sauce, and extras. Make it exactly how you want it.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">❤️</div>
+                    <h3>Healthy Options</h3>
+                    <p>Packed with fresh vegetables and lean proteins. Delicious never tasted so good.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">💰</div>
+                    <h3>Value for Money</h3>
+                    <p>Premium quality subs at prices that won't break the bank. Eat well, spend less.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to Taste the Difference?</h2>
+            <p>Visit your nearest Subway or order online for delivery</p>
+            <button class="cta-button cta-button-white">Start Your Order</button>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2024 Subway - Fresh Crafted Subs. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for buttons
+        document.querySelectorAll('.cta-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector('.menu-section');
+                target.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Add scroll animation
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.menu-card, .why-card').forEach(card => {
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
