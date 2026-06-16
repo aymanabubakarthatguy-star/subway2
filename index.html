@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUBWAY® — Eat Fresh. Live Bold.</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Bebas+Neue&family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --green:#008C15;
+    --yellow:#FFC600;
+    --dark:#0A0A0A;
+    --white:#FFFFFF;
+    --gray:#1A1A1A;
+  }
+  html{scroll-behavior:smooth}
+  body{background:var(--dark);color:var(--white);font-family:'Inter',sans-serif;overflow-x:hidden}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:999;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:18px 5%;
+    background:rgba(10,10,10,0.95);
+    backdrop-filter:blur(12px);
+    border-bottom:2px solid var(--yellow);
+    height:80px;
+  }
+  .logo{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:2.2rem;letter-spacing:4px;
+    color:var(--yellow);
+    text-shadow:0 0 30px rgba(255,198,0,0.5);
+  }
+  .logo span{color:var(--green)}
+  .nav-links{display:flex;gap:36px;list-style:none}
+  .nav-links a{
+    color:var(--white);text-decoration:none;font-weight:600;
+    font-size:.9rem;letter-spacing:2px;text-transform:uppercase;
+    transition:color .2s;position:relative;
+  }
+  .nav-links a::after{
+    content:'';position:absolute;bottom:-4px;left:0;right:0;
+    height:2px;background:var(--yellow);transform:scaleX(0);
+    transition:transform .2s;
+  }
+  .nav-links a:hover{color:var(--yellow)}
+  .nav-links a:hover::after{transform:scaleX(1)}
+  .nav-cta{
+    background:var(--yellow);color:var(--dark);
+    border:none;padding:10px 24px;font-weight:900;
+    font-size:.85rem;letter-spacing:2px;text-transform:uppercase;
+    cursor:pointer;transition:transform .15s,background .15s;
+    clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%);
+  }
+  .nav-cta:hover{transform:scale(1.05);background:#FFD740}
+
+  /* PAGES */
+  .page{min-height:100vh;display:none;flex-direction:column;padding-top:80px}
+  .page.active{display:flex}
+
+  /* === PAGE 1: HERO === */
+  #home{
+    background:var(--dark);
+    position:relative;overflow:hidden;
+    align-items:center;justify-content:center;
+    text-align:center;
+    min-height:100vh;
+    padding-top:80px !important;
+  }
+
+  /* Video Background */
+  .hero-video-container{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:0;
+    overflow:hidden;
+  }
+  .hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1.0;          /* Changed from 0.3 to 1.0 for full clarity */
+  filter: brightness(1); /* Changed from 0.4 to 1 to remove the darkness */
+}
+
+  .hero-stripes{
+    position:absolute;inset:0;
+    background:repeating-linear-gradient(
+      -45deg,
+      transparent,transparent 40px,
+      rgba(0,140,21,0.04) 40px,rgba(0,140,21,0.04) 80px
+    );
+    z-index:1;
+  }
+  .hero-circle{
+    position:absolute;width:700px;height:700px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,198,0,0.12) 0%,transparent 70%);
+    top:50%;left:50%;transform:translate(-50%,-50%);
+    animation:pulse 4s ease-in-out infinite;
+    z-index:1;
+  }
+  @keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.08)}}
+  
+  .hero-content{
+    position:relative;
+    z-index:10;
+    max-width:1000px;
+    padding:60px 20px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .hero-eyebrow{
+    font-size:.8rem;letter-spacing:6px;text-transform:uppercase;
+    color:var(--yellow);font-weight:700;margin-bottom:20px;
+    display:flex;align-items:center;justify-content:center;gap:12px;
+  }
+  .eyebrow-line{width:40px;height:2px;background:var(--yellow)}
+  
+  .hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 12vw, 9rem); /* Adjusted slightly so it fits perfectly on screen */
+  line-height: 0.95;
+  color: var(--white);
+  letter-spacing: -2px;
+  margin: 20px 0;
+  text-transform: uppercase;
+  
+  /* A heavier, multi-layered text shadow to keep it perfectly readable over a bright video */
+  text-shadow: 
+    0 4px 15px rgba(0, 0, 0, 0.9), 
+    0 10px 40px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Changed from 'display: block' to keep 'FRESH' and 'CRAFTED' on the same line if needed */
+.hero-title .accent {
+  color: var(--yellow);
+  display: inline-block;
+}
+
+/* Sets the green color for the subs part */
+.hero-title .green {
+  color: var(--green);
+  display: inline-block;
+  margin-left: 15px; /* Adds a clean space between the words */
+}
+  
+  .hero-sub{
+    font-size:1.1rem;color:rgba(255,255,255,0.8);
+    margin:30px auto 50px;
+    max-width:600px;
+    line-height:1.7;
+    text-shadow:0 4px 20px rgba(0,0,0,0.7);
+  }
+  
+  .hero-btns{
+    display:flex;gap:16px;justify-content:center;flex-wrap:wrap;
+    margin-bottom:50px;
+  }
+  
+  .btn-primary{
+    background:var(--yellow);color:var(--dark);
+    border:none;padding:16px 40px;font-weight:900;
+    font-size:1rem;letter-spacing:2px;text-transform:uppercase;
+    cursor:pointer;transition:transform .15s, box-shadow .15s;
+    clip-path:polygon(12px 0%,100% 0%,calc(100% - 12px) 100%,0% 100%);
+    box-shadow:0 8px 32px rgba(255,198,0,0.3);
+  }
+  .btn-primary:hover{
+    transform:scale(1.05);
+    box-shadow:0 12px 48px rgba(255,198,0,0.5);
+  }
+  
+  .btn-outline{
+    background:transparent;color:var(--white);
+    border:2px solid rgba(255,255,255,0.5);
+    padding:15px 40px;font-weight:700;
+    font-size:1rem;letter-spacing:2px;text-transform:uppercase;
+    cursor:pointer;transition:all .15s;
+  }
+  .btn-outline:hover{
+    border-color:var(--yellow);
+    background:rgba(255,198,0,0.15);
+    color:var(--yellow);
+  }
+
+  .hero-stats{
+    position:relative;
+    display:flex;justify-content:center;gap:60px;
+    z-index:10;
+    margin-top:40px;
+  }
+  .stat-item{text-align:center}
+  .stat-num{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:2.5rem;color:var(--yellow);display:block;
+    text-shadow:0 4px 20px rgba(255,198,0,0.3);
+  }
+  .stat-label{font-size:.75rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.5)}
+
+  /* SCROLL TICKER */
+  .ticker{
+    background:var(--yellow);padding:12px 0;
+    overflow:hidden;white-space:nowrap;
+  }
+  .ticker-inner{
+    display:inline-block;
+    animation:ticker 20s linear infinite;
+    font-family:'Bebas Neue',sans-serif;
+    font-size:1.2rem;letter-spacing:3px;color:var(--dark);
+  }
+  @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .ticker-sep{margin:0 30px;color:var(--green)}
+
+  /* === PAGE 2: MENU === */
+  #menu{
+    background:var(--dark);
+    padding:100px 5% 80px;
+    min-height:100vh;
+  }
+  
+  .section-header{
+    text-align:center;
+    margin-bottom:60px;
+    position:relative;
+    z-index:2;
+  }
+  
+  .section-tag{
+    font-size:.75rem;letter-spacing:6px;text-transform:uppercase;
+    color:var(--yellow);font-weight:700;
+  }
+  
+  .section-title{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(3rem,8vw,7rem);
+    line-height:1;margin-top:8px;
+    text-shadow:0 4px 20px rgba(0,0,0,0.5);
+  }
+  .section-title .hl{color:var(--green)}
+
+  .menu-filter{
+    display:flex;gap:12px;justify-content:center;
+    flex-wrap:wrap;margin-bottom:50px;
+    position:relative;
+    z-index:2;
+  }
+  .filter-btn{
+    background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);
+    border:1px solid rgba(255,255,255,0.1);padding:10px 24px;
+    font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
+    font-weight:600;cursor:pointer;transition:all .2s;border-radius:2px;
+  }
+  .filter-btn.active,.filter-btn:hover{
+    background:var(--yellow);color:var(--dark);border-color:var(--yellow);
+  }
+
+  .menu-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:24px;
+    max-width:1200px;margin:0 auto;
+    position:relative;
+    z-index:2;
+  }
+  .menu-card{
+    background:var(--gray);
+    border:1px solid rgba(255,255,255,0.07);
+    position:relative;overflow:hidden;cursor:pointer;
+    transition:transform .2s,border-color .2s;
+    border-radius:4px;
+  }
+  .menu-card:hover{transform:translateY(-4px);border-color:var(--yellow)}
+  .menu-card-img{
+    height:200px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:5rem;
+    background:linear-gradient(135deg,rgba(0,140,21,0.1),rgba(255,198,0,0.05));
+  }
+  .menu-card-body{padding:20px}
+  .card-badge{position:absolute;top:12px;right:12px;background:var(--yellow);color:var(--dark);padding:4px 8px;font-size:.7rem;font-weight:900;letter-spacing:1px}
+  .card-cal{font-size:.75rem;color:var(--yellow);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+  .card-name{font-size:1.1rem;font-weight:700;margin:8px 0}
+  .card-desc{font-size:.85rem;color:rgba(255,255,255,0.6);margin-bottom:16px;line-height:1.5}
+  .card-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:16px}
+  .card-price{font-size:1.3rem;font-weight:900;color:var(--yellow)}
+  .card-add{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.3);padding:6px 12px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s}
+  .card-add:hover{background:var(--yellow);color:var(--dark);border-color:var(--yellow)}
+
+  /* === PAGE 3: BUILD === */
+  #build{
+    background:var(--dark);
+    padding:100px 5% 80px;
+    min-height:100vh;
+  }
+
+  .build-wrapper{
+    display:grid;
+    grid-template-columns:1fr 350px;
+    gap:40px;
+    max-width:1200px;margin:0 auto;
+    position:relative;
+    z-index:2;
+  }
+
+  .builder-steps{flex:1}
+  .step-block{border-bottom:1px solid rgba(255,255,255,0.1);padding:24px 0}
+  .step-header{
+    display:flex;align-items:center;gap:16px;cursor:pointer;
+    transition:color .2s;
+  }
+  .step-header:hover{color:var(--yellow)}
+  .step-num{
+    width:48px;height:48px;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,0.05);
+    border:2px solid rgba(255,255,255,0.1);
+    border-radius:50%;
+    font-weight:900;font-size:1.2rem;
+    transition:all .2s;
+  }
+  .step-num.open{background:var(--yellow);color:var(--dark);border-color:var(--yellow)}
+  .step-info{text-align:left;flex:1}
+  .step-label{font-weight:700;font-size:.95rem}
+  .step-sel{font-size:.85rem;color:var(--green);margin-top:4px}
+  .step-body{max-height:0;overflow:hidden;transition:max-height .3s}
+  .step-body.open{max-height:500px;padding:20px 0}
+  .option-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px}
+  .option-chip{
+    background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.7);
+    border:1px solid rgba(255,255,255,0.1);padding:10px;
+    font-size:.8rem;font-weight:600;cursor:pointer;
+    border-radius:2px;transition:all .2s;
+    text-align:center;
+  }
+  .option-chip:hover{background:rgba(255,198,0,0.2);border-color:var(--yellow);color:var(--yellow)}
+  .option-chip.selected{background:var(--yellow);color:var(--dark);border-color:var(--yellow)}
+  .option-chip.multi.selected{background:rgba(0,140,21,0.3);border-color:var(--green);color:var(--green)}
+
+  .receipt{
+    background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);
+    padding:24px;border-radius:4px;position:sticky;top:120px;
+  }
+  .receipt-header{font-size:1.1rem;font-weight:900;margin-bottom:20px}
+  .receipt-item{
+    display:flex;justify-content:space-between;font-size:.9rem;
+    padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);
+  }
+  .receipt-item .label{color:rgba(255,255,255,0.6)}
+  .receipt-item .val{color:var(--white);font-weight:700;text-align:right}
+  .receipt-total{
+    display:flex;justify-content:space-between;font-size:1.3rem;
+    font-weight:900;margin-top:20px;padding-top:20px;
+    border-top:2px solid rgba(255,255,255,0.1);color:var(--yellow);
+  }
+  .receipt-cta{
+    width:100%;background:var(--yellow);color:var(--dark);
+    border:none;padding:16px;font-weight:900;margin-top:20px;
+    font-size:.9rem;letter-spacing:2px;text-transform:uppercase;
+    cursor:pointer;transition:all .2s;
+  }
+  .receipt-cta:hover{background:#FFD740;transform:scale(1.02)}
+
+  /* === PAGE 4: ABOUT === */
+  #about{
+    background:var(--dark);
+    padding:100px 5% 80px;
+    min-height:100vh;
+  }
+
+  .about-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:60px;
+    max-width:1200px;margin:0 auto;
+    align-items:center;
+    position:relative;
+    z-index:2;
+  }
+  .about-content h2{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(2rem,5vw,4rem);line-height:1;
+    margin-bottom:24px;
+  }
+  .about-content h2 .hl{color:var(--yellow)}
+  .about-content p{
+    font-size:1rem;line-height:1.8;color:rgba(255,255,255,0.7);
+    margin-bottom:20px;
+  }
+  .about-list{list-style:none;margin:40px 0}
+  .about-list li{
+    font-size:.95rem;color:rgba(255,255,255,0.7);
+    padding:12px 0 12px 40px;position:relative;
+  }
+  .about-list li::before{
+    content:'✓';position:absolute;left:0;color:var(--green);font-weight:900;font-size:1.2rem;
+  }
+  .about-image{
+    width:100%;height:400px;background:linear-gradient(135deg,rgba(0,140,21,0.15),rgba(255,198,0,0.1));
+    border-radius:4px;display:flex;align-items:center;justify-content:center;
+    font-size:5rem;
+    border:2px solid rgba(255,198,0,0.2);
+  }
+
+  /* FOOTER */
+  footer{
+    background:rgba(0,0,0,0.8);border-top:1px solid rgba(255,198,0,0.2);
+    padding:40px 5%;position:relative;z-index:2;
+  }
+  .footer-content{
+    max-width:1200px;margin:0 auto;
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:40px;margin-bottom:40px;
+  }
+  .footer-col h3{font-size:1rem;margin-bottom:16px;text-transform:uppercase;letter-spacing:2px;color:var(--yellow)}
+  .footer-col a{display:block;color:rgba(255,255,255,0.6);text-decoration:none;font-size:.9rem;margin-bottom:8px;transition:color .2s}
+  .footer-col a:hover{color:var(--yellow)}
+  .footer-bottom{
+    text-align:center;font-size:.85rem;color:rgba(255,255,255,0.4);
+    padding-top:20px;border-top:1px solid rgba(255,255,255,0.05);
+  }
+
+  /* TOAST */
+  .toast{
+    position:fixed;bottom:20px;right:20px;
+    background:var(--yellow);color:var(--dark);
+    padding:16px 24px;border-radius:4px;font-weight:700;
+    z-index:1000;opacity:0;transform:translateY(100px);
+    transition:all .3s;
+  }
+  .toast.show{opacity:1;transform:translateY(0)}
+
+  /* RESPONSIVE */
+  @media(max-width:768px){
+    nav{padding:12px 20px}
+    .nav-links{gap:20px;font-size:.8rem}
+    .hero-title{font-size:clamp(3rem,12vw,5rem)}
+    .hero-stats{flex-wrap:wrap;gap:30px}
+    .build-wrapper{grid-template-columns:1fr;gap:20px}
+    .receipt{position:static}
+    .about-grid{grid-template-columns:1fr;gap:40px}
+    .footer-content{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">SUB<span>WAY</span></div>
+  <ul class="nav-links">
+    <li><a href="javascript:showPage('home')">HOME</a></li>
+    <li><a href="javascript:showPage('menu')">MENU</a></li>
+    <li><a href="javascript:showPage('build')">BUILD</a></li>
+    <li><a href="javascript:showPage('about')">ABOUT</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('build')">ORDER NOW</button>
+</nav>
+
+<!-- PAGE 1: HOME/HERO -->
+<div class="page active" id="home">
+  <div class="hero-video-container">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="Subway_hero.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-stripes"></div>
+  <div class="hero-circle"></div>
+  
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="eyebrow-line"></span>
+      EAT FRESH
+      <span class="eyebrow-line"></span>
+    </div>
+    <h1 class="hero-title"><span class="accent">Fresh</span><br>Crafted<span class="green">Subs</span></h1>
+    <p class="hero-sub">
+      Real ingredients. Real flavors. Your sub, your rules. Build something legendary — every single day.
+    </p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="showPage('menu')">EXPLORE MENU</button>
+      <button class="btn-outline" onclick="showPage('build')">BUILD MY SUB</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">37K+</span>
+        <span class="stat-label">COMBINATIONS</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">100+</span>
+        <span class="stat-label">LOCATIONS</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">FLAVORS</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ticker" id="ticker-home">
+  <div class="ticker-inner">
+    Fresh Bread Daily <span class="ticker-sep">•</span> 
+    Premium Proteins <span class="ticker-sep">•</span> 
+    Build Your Way <span class="ticker-sep">•</span>
+    Fresh Bread Daily <span class="ticker-sep">•</span> 
+    Premium Proteins <span class="ticker-sep">•</span> 
+    Build Your Way <span class="ticker-sep">•</span>
+  </div>
+</div>
+
+<!-- PAGE 2: MENU -->
+<div class="page" id="menu">
+  <div class="section-header">
+    <div class="section-tag">OUR MENU</div>
+    <h2 class="section-title">
+      What's <span class="hl">Cooking?</span>
+    </h2>
+  </div>
+
+  <div class="menu-filter">
+    <button class="filter-btn active" onclick="filterMenu('all',this)">ALL</button>
+    <button class="filter-btn" onclick="filterMenu('classic',this)">CLASSIC</button>
+    <button class="filter-btn" onclick="filterMenu('premium',this)">PREMIUM</button>
+    <button class="filter-btn" onclick="filterMenu('veggie',this)">VEGGIES</button>
+    <button class="filter-btn" onclick="filterMenu('new',this)">NEW</button>
+  </div>
+
+  <div class="menu-grid" id="menu-grid"></div>
+</div>
+
+<!-- PAGE 3: BUILD -->
+<div class="page" id="build">
+  <div class="section-header">
+    <div class="section-tag">CUSTOMIZE</div>
+    <h2 class="section-title">
+      Build Your <span class="hl">Legend</span>
+    </h2>
+  </div>
+
+  <div class="build-wrapper">
+    <div class="builder-steps" id="builder-steps"></div>
+    <div class="receipt">
+      <div class="receipt-header">YOUR SUB</div>
+      <div id="receipt-items"></div>
+      <div class="receipt-total">
+        <span>TOTAL</span>
+        <span id="receipt-total">$7.49</span>
+      </div>
+      <button class="receipt-cta" onclick="placeOrder()">PLACE ORDER</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4: ABOUT -->
+<div class="page" id="about">
+  <div class="section-header">
+    <div class="section-tag">ABOUT US</div>
+    <h2 class="section-title">
+      <span class="hl">Built</span> On Real Ingredients
+    </h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-content">
+      <h2>We're All About <span class="hl">Freshness</span></h2>
+      <p>
+        Since day one, Subway has been about giving you the power to build YOUR sub, YOUR way. 
+        No compromises. No hidden ingredients. Just real, fresh, delicious.
+      </p>
+      <p>
+        From our bakers to your plate, every sandwich is made fresh. Because legendary starts with freshness.
+      </p>
+      <ul class="about-list">
+        <li>Fresh baked bread daily</li>
+        <li>Quality proteins & veggies</li>
+        <li>Build exactly what you want</li>
+        <li>Never microwaved</li>
+        <li>Legendary taste guaranteed</li>
+      </ul>
+    </div>
+    <div class="about-image">🌱</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-col">
+      <h3>SUBWAY</h3>
+      <a href="#">About</a>
+      <a href="#">Careers</a>
+      <a href="#">Franchising</a>
+    </div>
+    <div class="footer-col">
+      <h3>MENU</h3>
+      <a href="#">All Subs</a>
+      <a href="#">Salads</a>
+      <a href="#">Breakfast</a>
+    </div>
+    <div class="footer-col">
+      <h3>INFO</h3>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Use</a>
+      <a href="#">Nutrition</a>
+    </div>
+    <div class="footer-col">
+      <h3>CONNECT</h3>
+      <a href="#">Twitter</a>
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2025 Subway IP LLC. All rights reserved.
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const SUBS = [
+  {id:1,name:"Italian B.M.T.",emoji:"🥖",cal:"480 cal",desc:"Genoa salami, spicy pepperoni, ham — the OG Italian classic.",price:8.99,cat:"classic"},
+  {id:2,name:"Meatball Marinara",emoji:"🍝",cal:"530 cal",desc:"Juicy meatballs smothered in zesty marinara. Melted cheese on top.",price:7.49,cat:"classic"},
+  {id:3,name:"Turkey Breast",emoji:"🦃",cal:"280 cal",desc:"Lean oven-roasted turkey with crisp veggies. Light and legendary.",price:8.29,cat:"classic"},
+  {id:4,name:"The Monster",emoji:"🦴",cal:"900 cal",desc:"ALL the meats. All the cheese. For when you mean business.",price:12.99,cat:"premium",badge:"BEAST MODE"},
+  {id:5,name:"Steak & Cheese",emoji:"🥩",cal:"640 cal",desc:"Tender steak strips with melted American cheese. Pure fire.",price:10.49,cat:"premium"},
+  {id:6,name:"Veggie Delite",emoji:"🥬",cal:"200 cal",desc:"A rainbow of fresh vegetables on your choice of bread. Crisp, light, satisfying.",price:6.99,cat:"veggie"},
+  {id:7,name:"Subway Club",emoji:"🏆",cal:"410 cal",desc:"Roast beef, turkey, ham — triple stacked and triple tasty.",price:9.49,cat:"premium"},
+  {id:8,name:"Spicy Italian",emoji:"🌶️",cal:"500 cal",desc:"Pepperoni and salami with a kick. For those who like it hot.",price:8.79,cat:"classic"},
+  {id:9,name:"Beyond Meatball",emoji:"🌿",cal:"490 cal",desc:"Plant-based meatballs in rich marinara. Zero compromise on flavor.",price:9.99,cat:"veggie",badge:"NEW"},
+  {id:10,name:"BBQ Brisket",emoji:"🔥",cal:"720 cal",desc:"Slow-smoked brisket with tangy BBQ sauce. Limited time legend.",price:13.49,cat:"new",badge:"LIMITED"},
+  {id:11,name:"Tuna",emoji:"🐟",cal:"480 cal",desc:"Real tuna, creamy mayo. A classic for a reason.",price:7.99,cat:"classic"},
+  {id:12,name:"Rotisserie Chicken",emoji:"🍗",cal:"370 cal",desc:"Tender rotisserie-style chicken. Clean, fresh, next level.",price:10.99,cat:"new",badge:"NEW"},
+];
+
+const STEPS = [
+  {id:"size",label:"Size",icon:"📏",type:"single",options:[{l:"6\" Half",v:"6-inch",p:0},{l:"Footlong",v:"footlong",p:2.50},{l:"XL Wrap",v:"wrap",p:1.50}]},
+  {id:"bread",label:"Bread",icon:"🥖",type:"single",options:[{l:"Italian White",v:"Italian White",p:0},{l:"Honey Oat",v:"Honey Oat",p:0},{l:"Multigrain",v:"Multigrain",p:0},{l:"Flatbread",v:"Flatbread",p:0},{l:"Wrap",v:"Wrap",p:0.50}]},
+  {id:"protein",label:"Protein",icon:"🥩",type:"single",options:[{l:"Turkey Breast",v:"Turkey Breast",p:0},{l:"Italian B.M.T.",v:"Italian B.M.T.",p:0},{l:"Meatball Marinara",v:"Meatball Marinara",p:0},{l:"Steak",v:"Steak",p:1.50},{l:"Tuna",v:"Tuna",p:0},{l:"Beyond Meat™",v:"Beyond Meat™",p:1.50}]},
+  {id:"cheese",label:"Cheese",icon:"🧀",type:"single",options:[{l:"American",v:"American",p:0},{l:"Swiss",v:"Swiss",p:0},{l:"Provolone",v:"Provolone",p:0},{l:"Cheddar",v:"Cheddar",p:0},{l:"No Cheese",v:"No Cheese",p:0}]},
+  {id:"veggies",label:"Veggies",icon:"🥗",type:"multi",options:[{l:"Lettuce",v:"Lettuce"},{l:"Tomato",v:"Tomato"},{l:"Cucumber",v:"Cucumber"},{l:"Onion",v:"Onion"},{l:"Green Pepper",v:"Green Pepper"},{l:"Jalapeños",v:"Jalapeños"},{l:"Olives",v:"Olives"},{l:"Spinach",v:"Spinach"},{l:"Avocado",v:"Avocado"}]},
+  {id:"sauce",label:"Sauce",icon:"🫙",type:"multi",options:[{l:"Mayonnaise",v:"Mayonnaise"},{l:"Ranch",v:"Ranch"},{l:"Honey Mustard",v:"Honey Mustard"},{l:"Southwest",v:"Southwest"},{l:"Marinara",v:"Marinara"},{l:"Oil & Vinegar",v:"Oil & Vinegar"},{l:"Hot Sauce",v:"Hot Sauce"}]},
+];
+
+let selections = {size:null,bread:null,protein:null,cheese:null,veggies:[],sauce:[]};
+let basePrice = 7.49;
+let activeStep = 0;
+let currentMenu = 'all';
+
+// --- NAVIGATION ---
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const ticker = document.getElementById('ticker-home');
+  ticker.style.display = id==='home' ? 'block' : 'none';
+  window.scrollTo(0,0);
+}
+
+// --- MENU ---
+function renderMenu(cat){
+  const grid = document.getElementById('menu-grid');
+  const items = cat==='all' ? SUBS : SUBS.filter(s=>s.cat===cat);
+  grid.innerHTML = items.map(s=>`
+    <div class="menu-card">
+      <div class="menu-card-img">${s.emoji}
+        ${s.badge?`<div class="card-badge">${s.badge}</div>`:''}
+      </div>
+      <div class="menu-card-body">
+        <div class="card-cal">${s.cal}</div>
+        <div class="card-name">${s.name}</div>
+        <div class="card-desc">${s.desc}</div>
+        <div class="card-footer">
+          <div class="card-price">$${s.price.toFixed(2)}</div>
+          <button class="card-add" onclick="quickAdd('${s.name}',${s.price})">+ Add</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterMenu(cat,btn){
+  currentMenu = cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu(cat);
+}
+
+function quickAdd(name,price){
+  showToast(`✅ ${name} added to cart!`);
+}
+
+// --- BUILDER ---
+function renderBuilder(){
+  const container = document.getElementById('builder-steps');
+  container.innerHTML = STEPS.map((step,i)=>`
+    <div class="step-block" id="block-${i}">
+      <div class="step-header ${i===0?'open':''}" onclick="toggleStep(${i})">
+        <div class="step-num ${i===0?'open':''}">${i+1}</div>
+        <div class="step-info">
+          <div class="step-label">Step ${i+1} · ${step.icon} ${step.label}</div>
+          <div class="step-sel" id="sel-${i}">${i===0?'Choose your size':'—'}</div>
+        </div>
+        <span style="color:rgba(255,255,255,.3);font-size:1.2rem">${i===0?'▲':'▼'}</span>
+      </div>
+      <div class="step-body ${i===0?'open':''}" id="body-${i}">
+        <div class="option-grid">
+          ${step.options.map(opt=>`
+            <button class="option-chip ${step.type==='multi'?'multi':''}"
+              onclick="selectOption(${i},'${opt.v}',${step.type==='multi'?'true':'false'},${opt.p||0})">
+              ${opt.l}${opt.p?` <span style="color:var(--green);font-size:.75rem">+$${opt.p.toFixed(2)}</span>`:''}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleStep(i){
+  document.querySelectorAll('.step-header').forEach((h,idx)=>{
+    h.classList.toggle('open', idx===i);
+    h.querySelector('.step-num').classList.toggle('open', idx===i);
+    h.querySelector('span').textContent = idx===i?'▲':'▼';
+  });
+  document.querySelectorAll('.step-body').forEach((b,idx)=>{
+    b.classList.toggle('open', idx===i);
+  });
+  activeStep = i;
+}
+
+function selectOption(stepIdx, val, isMulti, extraPrice){
+  const step = STEPS[stepIdx];
+  if(isMulti){
+    const arr = selections[step.id];
+    const idx = arr.indexOf(val);
+    if(idx>-1) arr.splice(idx,1); else arr.push(val);
+    const chips = document.querySelectorAll(`#body-${stepIdx} .option-chip`);
+    chips.forEach(c=>{
+      const chipVal = STEPS[stepIdx].options.find(o=>c.textContent.includes(o.l))?.v;
+      c.classList.toggle('selected', arr.includes(chipVal));
+    });
+  } else {
+    selections[step.id] = val;
+    document.querySelectorAll(`#body-${stepIdx} .option-chip`).forEach(c=>{
+      c.classList.remove('selected');
+      if(c.textContent.includes(val.split(' ')[0])) c.classList.add('selected');
+    });
+    if(stepIdx < STEPS.length - 1){
+      setTimeout(()=>toggleStep(stepIdx+1), 300);
+    }
+  }
+  const selEl = document.getElementById(`sel-${stepIdx}`);
+  if(isMulti){
+    selEl.textContent = selections[step.id].length ? selections[step.id].join(', ') : '—';
+  } else {
+    selEl.textContent = val;
+  }
+  updateReceipt();
+}
+
+function updateReceipt(){
+  const items = document.getElementById('receipt-items');
+  const rows = STEPS.map(step=>{
+    const val = Array.isArray(selections[step.id])
+      ? (selections[step.id].length ? selections[step.id].join(', ') : '—')
+      : (selections[step.id] || '—');
+    return `<div class="receipt-item"><span class="label">${step.label}</span><span class="val">${val}</span></div>`;
+  }).join('');
+  items.innerHTML = rows;
+
+  let total = basePrice;
+  STEPS.forEach(step=>{
+    if(!Array.isArray(selections[step.id]) && selections[step.id]){
+      const opt = step.options.find(o=>o.v===selections[step.id]);
+      if(opt && opt.p) total += opt.p;
+    }
+  });
+  document.getElementById('receipt-total').textContent = `$${total.toFixed(2)}`;
+}
+
+function placeOrder(){
+  if(!selections.size || !selections.bread || !selections.protein){
+    showToast('⚠️ Please choose size, bread & protein first!');
+    return;
+  }
+  showToast('🎉 Order placed! Your sub is being made!');
+  setTimeout(()=>{
+    selections = {size:null,bread:null,protein:null,cheese:null,veggies:[],sauce:[]};
+    renderBuilder();
+    updateReceipt();
+  }, 2000);
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// INIT
+renderMenu('all');
+renderBuilder();
+updateReceipt();
+</script>
+</body>
+</html>
